@@ -1,0 +1,20 @@
+---
+- name: cleanup
+  file:
+    dest: "~/.ansible/tmp/k8s/cluster-autoscaler"
+    state: absent
+
+- name: create temporary directory for templates
+  file:
+    dest: "~/.ansible/tmp/k8s/cluster-autoscaler"
+    state: directory
+    recurse: true
+
+- name: create CA temporary yml files from templates
+  template:
+    src: "templates/cluster-autoscaler/cluster-autoscaler.yml.j2"
+    dest: "~/.ansible/tmp/k8s/cluster-autoscaler/cluster-autoscaler.yml"
+
+- name: apply yml files to EKS -> creating autoscaler pods
+  shell: "kubectl apply -n kube-system -f ~/.ansible/tmp/k8s/cluster-autoscaler/cluster-autoscaler.yml"
+

@@ -1,0 +1,2 @@
+cluster_name: eks-eu-test
+istio: true

@@ -1,0 +1,5 @@
+---
+- name: install helm chart for kube2iam
+  shell: "helm3 -n kube-system upgrade --install kube2iam ./helm/kube2iam --values ./helm/kube2iam/values.yml"
+  ignore_errors: true
+  register: install_result

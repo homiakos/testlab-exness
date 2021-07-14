@@ -1,0 +1,6 @@
+cas_scan_interval: 20s
+cas_scale_down_utilization_threshold: 0.6
+cas_scale_down_delay_after_add: 10m
+cas_scale_down_delay_after_delete: 10m
+cas_scale_down_delay_after_failure: 10m
+cas_scale_down_unneeded_time: 10m

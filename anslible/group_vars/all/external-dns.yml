@@ -1,0 +1,4 @@
+---
+external_dns:
+  iam: "arn:aws:iam::045843375616:role/k8s/external-dns-role"
+  cluster_id: "eks-eu-dev"

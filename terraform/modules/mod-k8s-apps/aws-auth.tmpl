@@ -1,0 +1,25 @@
+%{ for role in worker_role_arn ~}
+- rolearn: "${role}"
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
+%{ endfor ~}
+%{ for role in cluster_admin_roles ~}
+- rolearn: "${role}"
+  username: admin:{{SessionName}}
+  groups:
+    - system:masters
+%{ endfor ~}
+%{ for role in cluster_reader_role ~}
+- rolearn: "${role}"
+  username: reader:{{SessionName}}
+  groups:
+    - LMG-ReadOnly
+%{ endfor ~}
+%{ for group in user_groups ~}
+- rolearn: "${user_roles[group].arn}"
+  username: ${ group }:{{SessionName}}
+  groups:
+    - ${group}
+%{ endfor ~}

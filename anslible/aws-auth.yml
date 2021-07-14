@@ -1,0 +1,16 @@
+---
+- name: create temporary directory for templates
+  file:
+    dest: "~/.ansible/tmp/k8s/auth"
+    state: directory
+    recurse: true
+
+- name: create temporary yml files from templates - authz
+  template:
+    src: "templates/auth/authz.yml"
+    dest: "~/.ansible/tmp/k8s/auth/authz.yml"
+
+- name: apply yml files to EKS -> applying auth settings
+  shell: "kubectl apply -f ~/.ansible/tmp/k8s/auth/{{ item }}"
+  with_items:
+    - authz.yml

@@ -1,0 +1,13 @@
+---
+cas_expander: priority
+cas_aws_region: eu-central-1
+cas_priority_expander_config:
+  20:
+    - .*eks-eu-test.*-canary.*
+    - .*eks-eu-test.*-ondemand.*
+  70:
+    - .*eks-eu-test.*-sz12.*
+  80:
+    - .*eks-eu-test.*-mz.*
+  90:
+    - .*eks-eu-test.*-sz2xlarge.*

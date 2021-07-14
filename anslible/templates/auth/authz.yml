@@ -1,0 +1,268 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: exness-admin-team
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: RAM-LMG-KubeAdmins
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: exness-user
+rules:
+- apiGroups: [""]
+  resources: ["namespaces", "nodes", "componentstatus"]
+  verbs: ["list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: authenticated-exness-users
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: exness-user
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:authenticated
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: exness-user
+  namespace: kube-system
+rules:
+- apiGroups: [""]
+  resources: [services]
+  verbs: [list]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: exness-users
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: exness-user
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:authenticated
+
+# A copy of "admin" role + customizations
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: exness-namespace-admin
+rules:
+- apiGroups: [""]
+  resources: ['*']
+  verbs: ['*']
+
+- apiGroups: [""]
+  resources: [pods, pods/attach, pods/exec, pods/portforward, pods/proxy]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [""]
+  resources: [configmaps, endpoints, persistentvolumeclaims, replicationcontrollers, replicationcontrollers/scale, secrets, serviceaccounts, services, services/proxy]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [""]
+  resources: [bindings, events, limitranges, namespaces/status, pods/log, pods/status, replicationcontrollers/status, resourcequotas, resourcequotas/status]
+  verbs: [get, list, watch]
+
+- apiGroups: [""]
+  resources: [namespaces]
+  verbs: [get, list, watch]
+
+- apiGroups: [""]
+  resources: [serviceaccounts]
+  verbs: [impersonate]
+
+- apiGroups: [apps]
+  resources: [deployments, deployments/rollback, deployments/scale, statefulsets, statefulsets/rollback]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [autoscaling]
+  resources: [horizontalpodautoscalers]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [autoscaling]
+  resources: [verticalpodautoscalers]
+  verbs: [get, list, describe, create, delete, patch, update, watch]
+
+- apiGroups: [autoscaling.k8s.io]
+  resources: [verticalpodautoscalers]
+  verbs: [get, list, describe, create, delete, patch, update, watch]
+
+- apiGroups: [batch]
+  resources: [cronjobs, jobs]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [extensions]
+  resources: [daemonsets, deployments, deployments/rollback, deployments/scale, ingresses, replicasets, replicasets/scale, replicationcontrollers/scale, statefulsets, statefulsets/rollback]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [authorization.k8s.io]
+  resources: [localsubjectaccessreviews]
+  verbs: [create]
+
+- apiGroups: [rbac.authorization.k8s.io]
+  resources: [rolebindings, roles]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [create]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [delete]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [deletecollection]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [get]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [list]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [patch]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [update]
+
+- apiGroups: [apps]
+  resources: [daemonsets]
+  verbs: [watch]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [create]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [delete]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [deletecollection]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [get]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [list]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [patch]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [update]
+
+- apiGroups: [apps]
+  resources: [replicasets]
+  verbs: [watch]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [create]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [delete]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [deletecollection]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [get]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [list]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [patch]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [update]
+
+- apiGroups: [apps]
+  resources: [replicasets/scale]
+  verbs: [watch]
+
+- apiGroups: [bitnami.com]
+  resources: [sealedsecrets]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [extensions, networking.k8s.io]
+  resources: [networkpolicies]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [authentication.istio.io]
+  resources: [policies]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [config.istio.io]
+  resources: [adapters, attributemanifests, handlers, httpapispecbindings, httpapispecs, instances, quotaspecbindings, quotaspecs, rules, templates]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [networking.istio.io]
+  resources: [destinationrules, envoyfilters, gateways, serviceentries, sidecars, virtualservices]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [rbac.istio.io]
+  resources: [authorizationpolicies, clusterrbacconfigs, rbacconfigs, servicerolebindings, serviceroles]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [security.istio.io]
+  resources: [authorizationpolicies, requestauthentications, peerauthentications]
+  verbs: [create, delete, deletecollection, get, list, patch, update, watch]
+
+- apiGroups: [monitoring.coreos.com]
+  resources: ['*']
+  verbs: ['*']
+
+- apiGroups: [coordination.k8s.io]
+  resources: ['*']
+  verbs: ['*']
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: exness-istio-user
+rules:
+- apiGroups: [""]
+  resources: [configmaps, endpoints, persistentvolumeclaims, replicationcontrollers, replicationcontrollers/scale, secrets, serviceaccounts, services, services/proxy]
+  verbs: [get, list, watch]

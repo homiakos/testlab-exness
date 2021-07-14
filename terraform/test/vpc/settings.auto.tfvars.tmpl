@@ -1,0 +1,19 @@
+project         = "exness"
+region          = "eu-central-1"
+vpc_environment = "test"
+vpc_cidr        = "SUBNETPREFIX.0.0/16"
+
+private_networks = {
+  eu-central-1a = "SUBNETPREFIX.0.0/23"
+  eu-central-1b = "SUBNETPREFIX.2.0/23"
+  eu-central-1c = "SUBNETPREFIX.4.0/23"
+}
+
+public_networks = {
+  eu-central-1a = "SUBNETPREFIX.16.0/23"
+  eu-central-1b = "SUBNETPREFIX.18.0/23"
+  eu-central-1c = "SUBNETPREFIX.20.0/23"
+}
+
+vpc_name    = "exness test VPC"
+s3_endpoint = "exness-tfstate"

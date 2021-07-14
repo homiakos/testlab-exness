@@ -1,0 +1,5 @@
+---
+- name: install helm chart for php
+  shell: "helm3 -n apps-test upgrade --install php ./helm/php --values ./helm/php/values.yaml"
+  ignore_errors: true
+  register: install_result

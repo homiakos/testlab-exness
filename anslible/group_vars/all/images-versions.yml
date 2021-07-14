@@ -1,0 +1,7 @@
+---
+kube2iam:
+  image: jtblin/kube2iam
+  tag: 0.10.8
+cluster_autoscaler:
+  image: eu.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler
+  tag: v1.18.3

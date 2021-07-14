@@ -1,0 +1,36 @@
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: kube2iam
+  namespace: kube-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: kube2iam-read
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - pods
+  verbs:
+  - watch
+  - get
+  - list
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kube2iam
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube2iam-read
+subjects:
+- kind: ServiceAccount
+  name: kube2iam
+  namespace: kube-system

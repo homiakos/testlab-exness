@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nginx-phpfpm
+description: A chart for an nginx pod with multiple phpfpm pods
+type: application
+version: 0.0.1
+keywords:
+  - php
+  - php-fpm
+  - nginx
