@@ -19,7 +19,9 @@ locals {
 resource "aws_ecr_repository" "ecr" {
   for_each = { for ecr in local.registry : ecr.registry => ecr }
   name     = each.key
-
+  image_scanning_configuration {
+    scan_on_push = true
+  }
   tags = {
     Decription = each.value.description
     Owner      = each.value.owner

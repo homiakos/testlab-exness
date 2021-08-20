@@ -140,3 +140,8 @@ variable oidc_provider_url {
   default     = null
 }
 
+variable scan_on_push {
+  description = "Scan on push"
+  default     = false
+  type        = bool
+}
